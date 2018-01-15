@@ -6,23 +6,38 @@
 //EVIL BIT LEVEL HACKING
 using namespace std;
 
-int main() {
+void write(vector<string> &lines, string source){
 	fstream target;
-	vector<string> lines;
-	string string1;
-	target.open("test.txt", ios::out | ios::in | ios::binary);
 
-	while(getline(target,string1)){
-		cout << string1 << endl;
-		lines.push_back(string1);
+	target.open(source);
+	for(int ii = 0; ii < lines.size(); ii++){
+		target << lines[ii] << endl;
 	}
 
-//	for(int ii = 0; ii < lines.size(); ii++){
-//		target << lines[ii];
-//	}
+	target << "Testing" << endl;
+	target.close();
+}
 
-	target << "Hello world";
+void read(vector<string> &lines, string source){
+	string l;
+	fstream target;
+	target.open(source);
 
+	while(getline(target,l)){
+		cout << l << endl;
+		lines.push_back(l);
+	}
+
+	target.close();
+}
+
+int main() {
+
+	vector<string> lines;
+	string source = "test.txt";
+
+	read(lines, source);
+	write(lines, source);
 //	srand (time(NULL));
 //
 //	//8 bit int
@@ -40,6 +55,5 @@ int main() {
 //	//convert back to int
 //	a = (int)x.to_ulong();
 
-	target.close();
 	return 0;
 }
