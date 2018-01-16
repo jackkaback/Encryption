@@ -6,16 +6,12 @@
 //EVIL BIT LEVEL HACKING
 using namespace std;
 
-void write(vector<string> &lines, string source){
-	fstream target;
+void decrypt(vector<string> &lines){
+	string currLine;
+}
 
-	target.open(source);
-	for(int ii = 0; ii < lines.size(); ii++){
-		target << lines[ii] << endl;
-	}
-
-	target << "Testing" << endl;
-	target.close();
+void encrypt(vector<string> &lines){
+	string currLine;
 }
 
 void read(vector<string> &lines, string source){
@@ -31,13 +27,36 @@ void read(vector<string> &lines, string source){
 	target.close();
 }
 
+void write(vector<string> &lines, string source){
+	fstream target;
+	target.open(source);
+
+	for(int ii = 0; ii < lines.size(); ii++){
+		target << lines[ii] << endl;
+	}
+
+	target.close();
+}
+
 int main() {
 
 	vector<string> lines;
-	string source = "test.txt";
+	string source;
+
+	cout << "Enter the target file" << endl;
+	cin >> source;
 
 	read(lines, source);
 	write(lines, source);
+
+	string test = lines[0];
+	bitset<8> testing(test[0]);
+
+	cout << testing << endl;
+	testing[0] = !testing[0];
+	test[0] = char(testing.to_ullong());
+
+	cout << test << endl;
 //	srand (time(NULL));
 //
 //	//8 bit int
