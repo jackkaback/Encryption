@@ -9,19 +9,19 @@ using namespace std;
 void encrypt(vector<string> &lines){
 	string currLine;
 
-	for(int ii = 0; ii < lines.size(); ii++) {
-		currLine = lines[ii];
+	for (auto &line : lines) {
+		currLine = line;
 
-		for(int jj = 0; jj < currLine.size(); jj++) {
-			bitset<8> bitset(currLine[jj]);
+		for (char &jj : currLine) {
+			bitset<8> bitset(jj);
 
 			for (int k = 0; k < 8; k++){
 				bitset[k] = !bitset[k];
 			}
 
-			currLine[jj] = char(bitset.to_ullong());
+			jj = char(bitset.to_ullong());
 		}
-		lines[ii] = currLine;
+		line = currLine;
 	}
 }
 
@@ -42,8 +42,8 @@ void write(vector<string> &lines, string source){
 	fstream target;
 	target.open(source);
 
-	for(int ii = 0; ii < lines.size(); ii++){
-		target << lines[ii] << endl;
+	for (const auto &line : lines) {
+		target << line << endl;
 	}
 
 	target.close();
