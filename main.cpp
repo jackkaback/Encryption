@@ -3,8 +3,10 @@
 #include <fstream>
 #include <vector>
 
-// TODO ensure comptibility with file formats other than text
-//EVIL BIT LEVEL HACKING
+// TODO ensure compatibility with file formats other than text
+// Known compatibility: test only documents like txt or source code files
+// Known incompatibilities: word documents (odt, doc), music (mp3, wav), pictures (jpeg, png)
+// TODO have the encryptor remove special chars like /n
 
 using namespace std;
 
@@ -23,18 +25,26 @@ void encrypt(vector<string> &lines, string key){
 		currLine = line;
 
 		for (char &jj : currLine) {
-			bitset<8> bitset(jj);
+			bitset<8> bits(jj);
 
 			for (int k = 0; k < 8; k++) {
 				int r = rand() % 2;
 
+				//EVIL BIT LEVEL HACKING
 				if (r) {
-					bitset[k] = !bitset[k];
+					bits[k] = !bits[k];
 				}
 
 			}
 
-			jj = char(bitset.to_ullong());
+			char temp = char(bits.to_ullong());
+
+			if (temp == 0 || temp == 1 || temp == 2 || temp == 3 || temp == 5 || temp == 6 || temp == 8 || temp == 10 ||
+					temp == 12 || temp == 13 || temp == 24 || temp == 27 || temp == 127) {
+				continue;
+			} else {
+				jj = temp;
+			}
 		}
 		line = currLine;
 	}
