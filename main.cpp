@@ -2,6 +2,7 @@
 #include <bitset>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 
 // TODO ensure compatibility with file formats other than text
 // Known compatibility: test only documents like txt or source code files
@@ -39,8 +40,7 @@ void encrypt(vector<string> &lines, string key){
 
 			char temp = char(bits.to_ullong());
 
-			if (temp == 0 || temp == 1 || temp == 2 || temp == 3 || temp == 5 || temp == 6 || temp == 8 || temp == 10 ||
-					temp == 12 || temp == 13 || temp == 24 || temp == 27 || temp == 127) {
+			if (isValidChar(temp)) {
 				continue;
 			} else {
 				jj = temp;
@@ -48,6 +48,18 @@ void encrypt(vector<string> &lines, string key){
 		}
 		line = currLine;
 	}
+}
+
+/*
+ * Tests if the char is valid
+ */
+
+bool isValidChar(char test){
+	char testArr[] = {0, 1, 2, 3, 5, 6, 8, 10, 12, 13, 24, 27, 127};
+	size_t i = sizeof(testArr) / sizeof(char);
+	int *end = testArr + i;
+	int *result = find(testArr, end, test);
+	return !(result != end);
 }
 
 /*
